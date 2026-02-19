@@ -27,7 +27,7 @@
 储留箱S20P可同时编译DSA和GSW两种交换机驱动的固件，不用选择。  
 
 - #### 1. Select Source Branch
-默认使用 [lgs2007m/immortalwrt-mt798x](https://github.com/lgs2007m/immortalwrt-mt798x) 的 [v7672](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7672) 分支，该分支支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp使用v7.6.7.2版本配套的； [v7661](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7671) 分支也支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp改为v7.6.6.1版本配套的旧版。v7.6.7.3版本驱动听说有问题，未测试，观望中。  
+默认使用 [lgs2007m/immortalwrt-mt798x](https://github.com/lgs2007m/immortalwrt-mt798x) 的 [v7672](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7672) 分支，该分支支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp使用v7.6.7.2版本配套的； [v7661](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7661) 分支也支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp改为v7.6.6.1版本配套的旧版。v7.6.7.3版本驱动听说有问题，未测试，观望中。  
 
 - #### 2. Set LAN IP Address
 设置LAN IP地址（路由器登录地址），默认192.168.1.1。  
@@ -138,7 +138,7 @@ RAX3000Z增强版（XR30-eMMC）的eMMC默认使用52MHz频率
 BT-R320的eMMC默认使用52MHz频率  
 
 - #### 1. Select Source Branch
-默认使用 [lgs2007m/immortalwrt-mt798x](https://github.com/lgs2007m/immortalwrt-mt798x) 的 [v7672](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7672) 分支，该分支支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp使用v7.6.7.2版本配套的； [v7661](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7671) 分支也支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp改为v7.6.6.1版本配套的旧版。v7.6.7.3版本驱动听说有问题，未测试，观望中。  
+默认使用 [lgs2007m/immortalwrt-mt798x](https://github.com/lgs2007m/immortalwrt-mt798x) 的 [v7672](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7672) 分支，该分支支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp使用v7.6.7.2版本配套的； [v7661](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7661) 分支也支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp改为v7.6.6.1版本配套的旧版。v7.6.7.3版本驱动听说有问题，未测试，观望中。  
 
 - #### 2. Set LAN IP Address
 设置LAN IP地址（路由器登录地址），默认192.168.1.1。  
