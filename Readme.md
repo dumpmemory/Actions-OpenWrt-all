@@ -25,6 +25,7 @@
 - #### 说明
 百里源码中的WAN、LAN地址顺序已修复并固定了WiFi MAC地址，交换机驱动已改为使用GSW。  
 储留箱S20P可同时编译DSA和GSW两种交换机驱动的固件，不用选择。  
+YVR X6使用GSW，不可选择。  
 
 - #### 1. Select Source Branch
 默认使用 [lgs2007m/immortalwrt-mt798x](https://github.com/lgs2007m/immortalwrt-mt798x) 的 [v7672](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7672) 分支，该分支支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp使用v7.6.7.2版本配套的； [v7661](https://github.com/lgs2007m/immortalwrt-mt798x/tree/v7661) 分支也支持mt_wifi v7.6.7.2和v7.6.6.1，conninfra datconf warp改为v7.6.6.1版本配套的旧版。v7.6.7.3版本驱动听说有问题，未测试，观望中。  
@@ -92,7 +93,10 @@ CONFIG_PACKAGE_lua-cjson=y
 CONFIG_PACKAGE_luci-app-dockerman=y  
 
 - #### 百里改无线发射功率
-百里5G无线发射功率23dBm，2.4G发送功率25dBm。大佬们已研究出修改5G发射功率的方法。  
+MT7976/MT7915射频前端芯片修改eeprom v2参考[mt7981_factory_txpwr_patch](https://github.com/4n0n4/mt7981_factory_txpwr_patch/blob/main/README_EN.md)。  
+2.4 GHz: MT_EE_TX0_POWER_2G_V2 @ 0x441 (4 bytes)  
+5 GHz: MT_EE_TX0_POWER_5G_V2 @ 0x445 (20 bytes)   
+百里5G无线发射功率23dBm，2.4G发送功率25dBm。  
 其中各个功率十六进制数据代表如下：  
 23dBm x2A  
 24dBm x2B  
@@ -101,7 +105,7 @@ CONFIG_PACKAGE_luci-app-dockerman=y
 MT7986_ePAeLNA_EEPROM_AX6000.bin文件只在固件第一次启动时从factory复制出来，所以修改一次即可。  
 ```
 hex_value='\x2B'
-printf "$hex_value%.0s" {1..20} > /tmp/tmp.bin
+printf "$hex_value%.0s" $(seq 1 20) > /tmp/tmp.bin
 dd if=/tmp/tmp.bin of=/lib/firmware/MT7986_ePAeLNA_EEPROM_AX6000.bin bs=1 seek=$((0x445)) conv=notrunc
 ```
 当然也可以直接硬修改factory分区，使得以后每次刷新固件都不用再修改了。  
@@ -109,14 +113,29 @@ dd if=/tmp/tmp.bin of=/lib/firmware/MT7986_ePAeLNA_EEPROM_AX6000.bin bs=1 seek=$
 自行到tmp下载保存好备份，然后reboot重启即可。  
 ```
 hex_value='\x2B'
-printf "$hex_value%.0s" {1..20} > /tmp/tmp.bin
+printf "$hex_value%.0s" $(seq 1 20) > /tmp/tmp.bin
 dd if=$(blkid -t PARTLABEL=factory -o device) of=/tmp/mmcblk0px_factory_backup.bin conv=fsync
 dd if=/tmp/tmp.bin of=/lib/firmware/MT7986_ePAeLNA_EEPROM_AX6000.bin bs=1 seek=$((0x445)) conv=notrunc
 dd if=/tmp/tmp.bin of=$(blkid -t PARTLABEL=factory -o device) bs=1 seek=$((0x445)) conv=notrunc
 dd if=$(blkid -t PARTLABEL=factory -o device) of=/tmp/mmcblk0px_factory.bin conv=fsync
 ```
+- #### YVR X6改无线发射功率
+YVR X6的2.4G 5G天线是通过双工器进行合路输出，出厂是2.4G 25dBm 5G 25dBm。  
+25dBm x2E  
+26dBm x30  
+下面直接硬修改factory分区，把2.4G 5G同时拉到26dBm。  
+自行到tmp下载保存好备份，然后reboot重启即可。  
+```
+hex_value='\x30'
+printf "$hex_value%.0s" $(seq 1 24) > /tmp/tmp.bin
+mtd_dev=$(grep -w "Factory" /proc/mtd | cut -d: -f1)
+dd if="/dev/${mtd_dev}" of="/tmp/${mtd_dev}_Factory_backup.bin"
+dd if="/dev/${mtd_dev}" of=/tmp/eeprom.bin
+dd if=/tmp/tmp.bin of=/tmp/eeprom.bin bs=1 seek=$((0x441)) conv=notrunc
+mtd write /tmp/eeprom.bin Factory
+```
 - #### 储留箱S20P改无线发射功率
-详见刷机文件中的图片。 
+详见刷机文件中的图片。  
 </details>
 
 ---
